@@ -36,33 +36,38 @@ $categories.forEach(category => {
 function startGame() {
     // essa funçâo faz com que o butão de começar o jogo desapareça 
     $startGameButton.classList.add("hide");
-    // aqui retira 
+    // 
     $categoriesContainer.classList.remove("hide");
 }
 
-// essa funçâo é para mostrar qual a próxima pergunta
+// essa funçâo é para mostrar as próximas perguntas
 function displayNextQuestion() {
     resetState();
-  
+  // 
     if (filteredQuestions.length === currentQuestionIndex) {
         return finishGame();
     }
-
+// 
     $questionText.textContent = filteredQuestions[currentQuestionIndex].question;
     filteredQuestions[currentQuestionIndex].answers.forEach(answer => {
+        // 
         const newAnswer = document.createElement("button");
         newAnswer.classList.add("button", "answer");
         newAnswer.textContent = answer.text;
+        // aqui se a pergunta estiver correta, algo deve acontecer 
         if (answer.correct) {
+            //aqui pega o button e adicina e adiciona uma variavel com valor que esta no eelmento html para conseguirmos acessar depois e adicionamo uma informaçâo para cao ela seja correto
             newAnswer.dataset.correct = answer.correct;
         }
+        //para adicionar um elemento nela colocamos um appendChil e passamo qual o eleento que queremos adicionar no caso é o newAnswer
         $answersContainer.appendChild(newAnswer);
-
+        // quando o usuario clicar em alguma alternativa verificar se ela é a correta ou nao, assim se ele clicar em um botão  vai rodar a funçâo selecAnwer
         newAnswer.addEventListener("click", selectAnswer);
     });
 }
 
 function resetState() {
+    //
     while ($answersContainer.firstChild) {
         $answersContainer.removeChild($answersContainer.firstChild);
     }
@@ -70,20 +75,23 @@ function resetState() {
     document.body.removeAttribute("class");
     $nextQuestionButton.classList.add("hide");
 }
-
 function selectAnswer(event) {
+    // detectar se o usuario escolheu a resposta correta ou não
+    
     const answerClicked = event.target;
-
+  // esse if é para quando o botao selecionado tiver um dataset.correct, enato o usuario clicou na respota correta
     if (answerClicked.dataset.correct) {
+        //adicinamos uma classlist 
         document.body.classList.add("correct");
         totalCorrect++;
+        //o else pe para quando o usuario escolher a respota errada, entao fa basicament a mesma coia do if, porem com o incorrect
     } else {
         document.body.classList.add("incorrect"); 
     }
-
+// aqui esta selecionando todos o elemento que tiverem a classe ansswer e aanalisar um botao de cada vez
     document.querySelectorAll(".answer").forEach(button => {
         button.disabled = true;
-
+// aqui é o mesmo proceso do if ver se a rposta esta correta ou nao
         if (button.dataset.correct) {
             button.classList.add("correct");
         } else {
@@ -94,7 +102,7 @@ function selectAnswer(event) {
     $nextQuestionButton.classList.remove("hide");
     currentQuestionIndex++;
 }
-
+// essa é a função par encerrar o jogo
 function finishGame() {
     const totalQuestions = filteredQuestions.length;
     const performance = Math.floor(totalCorrect * 100 / totalQuestions);
