@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QUIZ INFO</title>
+    <link rel="stylesheet" href="pw.css">
+</head>
+<body>
+    <div class="container">
+        <h1>QUIZ INFO</h1>
+        <button class="button start-quiz">INICIAR QUIZ</button>
+        <div class="categories-container hide">
+            <p class="question">ESCOLHA UMA CATEGORIA!</p>
+            <ul class="categories">
+                <li class="category" data-category="FILMES">FILMES</li>
+                <li class="category" data-category="JOGOS">JOGOS</li>
+                <li class="category" data-category="LIVROS">LIVROS</li>
+                <li class="category" data-category="ARTISTAS">ARTISTAS</li>
+                <li class="category" data-category="ESPORTES">ESPORTES</li>
+            </ul>
+        </div>
+        <div class="questions-container hide">
+            <p class="question"></p>
+            <ul class="answers-container"></ul>
+            <button class="button next-question hide">Próxima Pergunta</button>
+        </div>
+    </div>
+    <script src="pw.js"></script>
+</body>
+</html>
