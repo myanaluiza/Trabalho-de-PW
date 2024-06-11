@@ -1,27 +1,27 @@
-// O 
+// Aqui estamos pegando algumas coisinhas da página, como botões e caixas de texto
+// para mexermos nelas mais tarde
+
 const $startGameButton = document.querySelector(".start-quiz");
-//
 const $nextQuestionButton = document.querySelector(".next-question");
-//
 const $categoriesContainer = document.querySelector(".categories-container");
-//
 const $questionsContainer = document.querySelector(".questions-container");
-//
 const $questionText = document.querySelector(".questions-container .question");
-//
 const $answersContainer = document.querySelector(".answers-container");
-//
 const $categories = document.querySelectorAll(".category");
 
+// Aqui estamos criando algumas variáveis para sabermos em que ponto do jogo estamos
 let currentQuestionIndex = 0;
 let totalCorrect = 0;
 let selectedCategory = "";
 let filteredQuestions = [];
 
-//Quando o usuário clicar o jogo vai começar capturando o eveto de click e rodar a funçâo startgame 
+// Quando o jogador clicar em "Começar", o jogo vai começar!
 $startGameButton.addEventListener("click", startGame);
+
+// Quando o usuario clicar em "Próxima pergunta", vamos mostrar a próxima pergunta
 $nextQuestionButton.addEventListener("click", displayNextQuestion);
 
+// Quando o usuario clicar em uma categoria, vamos filtrar as perguntas e mostrar a primeira
 $categories.forEach(category => {
     category.addEventListener("click", () => {
         selectedCategory = category.dataset.category;
@@ -32,66 +32,59 @@ $categories.forEach(category => {
     });
 });
 
-// aqui é a funçâo de inicializar o quiz
+// Essa função inicia o jogo
 function startGame() {
-    // essa funçâo faz com que o butão de começar o jogo desapareça 
     $startGameButton.classList.add("hide");
-    // 
     $categoriesContainer.classList.remove("hide");
 }
 
-// essa funçâo é para mostrar as próximas perguntas
+// Essa função mostra a próxima pergunta
 function displayNextQuestion() {
-    resetState();
-  // 
+    resetState(); // Limpa o estado das respostas
+  
+ // Se já mostramos todas as perguntas da categoria, finalizamos o jogo
     if (filteredQuestions.length === currentQuestionIndex) {
         return finishGame();
     }
-// 
+    
+    // Exibimos o texto da próxima pergunta
     $questionText.textContent = filteredQuestions[currentQuestionIndex].question;
     filteredQuestions[currentQuestionIndex].answers.forEach(answer => {
-        // 
-        const newAnswer = document.createElement("button");
-        newAnswer.classList.add("button", "answer");
+        const newAnswer = document.createElement("button"); // Criamos um botão para cada resposta
+        newAnswer.classList.add("button", "answer"); // Colocamos o texto da resposta no botão
         newAnswer.textContent = answer.text;
-        // aqui se a pergunta estiver correta, algo deve acontecer 
         if (answer.correct) {
-            //aqui pega o button e adicina e adiciona uma variavel com valor que esta no eelmento html para conseguirmos acessar depois e adicionamo uma informaçâo para cao ela seja correto
-            newAnswer.dataset.correct = answer.correct;
+            newAnswer.dataset.correct = answer.correct; // Se for a resposta correta, marcamos o botão
         }
-        //para adicionar um elemento nela colocamos um appendChil e passamo qual o eleento que queremos adicionar no caso é o newAnswer
-        $answersContainer.appendChild(newAnswer);
-        // quando o usuario clicar em alguma alternativa verificar se ela é a correta ou nao, assim se ele clicar em um botão  vai rodar a funçâo selecAnwer
-        newAnswer.addEventListener("click", selectAnswer);
+        $answersContainer.appendChild(newAnswer); // Adicionamos o botão ao container de respostas
+        newAnswer.addEventListener("click", selectAnswer);// Quando o jogador clicar, vamos ver se a resposta está certa
     });
 }
 
+//Reinicia o estado das respostas
 function resetState() {
-    //
     while ($answersContainer.firstChild) {
-        $answersContainer.removeChild($answersContainer.firstChild);
+        $answersContainer.removeChild($answersContainer.firstChild); // Remove as respostas anteriores
     }
 
     document.body.removeAttribute("class");
     $nextQuestionButton.classList.add("hide");
 }
+
+// Quando o jogador escolher uma resposta, vamos ver se está certa ou errada
 function selectAnswer(event) {
-    // detectar se o usuario escolheu a resposta correta ou não
-    
     const answerClicked = event.target;
-  // esse if é para quando o botao selecionado tiver um dataset.correct, enato o usuario clicou na respota correta
+
     if (answerClicked.dataset.correct) {
-        //adicinamos uma classlist 
         document.body.classList.add("correct");
-        totalCorrect++;
-        //o else pe para quando o usuario escolher a respota errada, entao fa basicament a mesma coia do if, porem com o incorrect
+        totalCorrect++; // Se a resposta estiver correta, aumentamos o número de respostas corretas
     } else {
         document.body.classList.add("incorrect"); 
     }
-// aqui esta selecionando todos o elemento que tiverem a classe ansswer e aanalisar um botao de cada vez
+
     document.querySelectorAll(".answer").forEach(button => {
         button.disabled = true;
-// aqui é o mesmo proceso do if ver se a rposta esta correta ou nao
+
         if (button.dataset.correct) {
             button.classList.add("correct");
         } else {
@@ -99,16 +92,18 @@ function selectAnswer(event) {
         }
     });
   
-    $nextQuestionButton.classList.remove("hide");
+    $nextQuestionButton.classList.remove("hide"); 
     currentQuestionIndex++;
 }
-// essa é a função par encerrar o jogo
+
+// Essa função finaliza o jogo e mostra a pontuação final
 function finishGame() {
     const totalQuestions = filteredQuestions.length;
     const performance = Math.floor(totalCorrect * 100 / totalQuestions);
   
-    let message = "";
+    let message = ""; // Inicializamos uma mensagem de feedback para o jogador
 
+     // Aqui é decidido qual mensagem mostrar, levando em consideração a quantidade de acertos pelo usuário
     switch (true) {
         case (performance >= 90):
             message = "Excelente :)";
@@ -122,7 +117,7 @@ function finishGame() {
         default:
             message = "Pode melhorar :(";
     }
-
+// Aqui exibimos a pontuação final e o feedback
     $questionsContainer.innerHTML = 
     `
         <p class="final-message">
@@ -137,7 +132,6 @@ function finishGame() {
         </button>
     `;
 }
-
 
 const questions = [
     {
