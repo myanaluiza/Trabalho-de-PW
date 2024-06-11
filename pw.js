@@ -1,9 +1,16 @@
+// O 
 const $startGameButton = document.querySelector(".start-quiz");
+//
 const $nextQuestionButton = document.querySelector(".next-question");
+//
 const $categoriesContainer = document.querySelector(".categories-container");
+//
 const $questionsContainer = document.querySelector(".questions-container");
+//
 const $questionText = document.querySelector(".questions-container .question");
+//
 const $answersContainer = document.querySelector(".answers-container");
+//
 const $categories = document.querySelectorAll(".category");
 
 let currentQuestionIndex = 0;
@@ -11,6 +18,7 @@ let totalCorrect = 0;
 let selectedCategory = "";
 let filteredQuestions = [];
 
+//Quando o usuário clicar o jogo vai começar capturando o eveto de click e rodar a funçâo startgame 
 $startGameButton.addEventListener("click", startGame);
 $nextQuestionButton.addEventListener("click", displayNextQuestion);
 
@@ -24,11 +32,15 @@ $categories.forEach(category => {
     });
 });
 
+// aqui é a funçâo de inicializar o quiz
 function startGame() {
+    // essa funçâo faz com que o butão de começar o jogo desapareça 
     $startGameButton.classList.add("hide");
+    // aqui retira 
     $categoriesContainer.classList.remove("hide");
 }
 
+// essa funçâo é para mostrar qual a próxima pergunta
 function displayNextQuestion() {
     resetState();
   
@@ -117,6 +129,7 @@ function finishGame() {
         </button>
     `;
 }
+
 
 const questions = [
     {
