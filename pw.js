@@ -12,6 +12,7 @@ const $categories = document.querySelectorAll(".category");
 // Aqui estamos criando algumas variáveis para sabermos em que ponto do jogo estamos
 let currentQuestionIndex = 0;
 let totalCorrect = 0;
+let totalScore = 0; // Adicionamos a variável para a pontuação total
 let selectedCategory = "";
 let filteredQuestions = [];
 
@@ -75,18 +76,14 @@ function resetState() {
 function selectAnswer(event) {
     const answerClicked = event.target;
 
-
-    if (respostaClicked.dataset.correct) {
-
+    if (answerClicked.dataset.correct) {
         document.body.classList.add("correct");
-
-        totalCorrect++; 
-
+        totalCorrect++; // Se a resposta estiver correta, aumentamos o número de respostas corretas
+        totalScore += 10; // Adicionamos 10 pontos para resposta correta
     } else {
-
         document.body.classList.add("incorrect"); 
-
-        totalIncorrect++;
+        totalScore -= 5; // Subtraímos 5 pontos para resposta errada
+    }
 
     document.querySelectorAll(".answer").forEach(button => {
         button.disabled = true;
@@ -128,6 +125,8 @@ function finishGame() {
     `
         <p class="final-message">
             Você acertou ${totalCorrect} de ${totalQuestions} questões!
+            <br>
+            Sua pontuação final é: ${totalScore} pontos!
             <span>Resultado: ${message}</span>
         </p>
         <button 
