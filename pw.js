@@ -75,12 +75,18 @@ function resetState() {
 function selectAnswer(event) {
     const answerClicked = event.target;
 
-    if (answerClicked.dataset.correct) {
+
+    if (respostaClicked.dataset.correct) {
+
         document.body.classList.add("correct");
-        totalCorrect++; // Se a resposta estiver correta, aumentamos o número de respostas corretas
+
+        totalCorrect++; 
+
     } else {
+
         document.body.classList.add("incorrect"); 
-    }
+
+        totalIncorrect++;
 
     document.querySelectorAll(".answer").forEach(button => {
         button.disabled = true;
